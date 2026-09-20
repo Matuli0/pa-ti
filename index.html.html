@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OLA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at center, #0f172a 0%, #030712 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+      padding: 24px 16px;
+    }
+
+    
+    .music-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: #93c5fd;
+      padding: 8px 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .music-btn:hover {
+      background: rgba(96, 165, 250, 0.2);
+      border-color: #60a5fa;
+      transform: scale(1.04);
+    }
+
+    .scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+
+    
+    .photo-album-container {
+      position: relative;
+      width: 280px; 
+      height: 280px;
+      margin-bottom: 30px;
+      margin-top: 20px;
+      transform: scale(0); 
+      animation: popInAlbum 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.5s forwards;
+    }
+
+    .polaroid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      border-radius: 12px;
+      padding: 10px; /* Marco interno */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0; /* Empiezan invisibles */
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .polaroid img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover; 
+      border-radius: 6px;
+    }
+
+    /* Diseño de marco Polaroid sutil */
+    .polaroid::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 15%; 
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(96, 165, 250, 0.1);
+    }
+
+    
+    .p1 { animation: photoCycle 15s infinite 1.5s; }
+    .p2 { animation: photoCycle 15s infinite 6.5s; }
+    .p3 { animation: photoCycle 15s infinite 11.5s; }
+
+    
+    .p1 { transform: rotate(-3deg); }
+    .p2 { transform: rotate(2deg); }
+    .p3 { transform: rotate(-1deg); }
+
+    
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 20px;
+      padding: 24px 28px;
+      width: 100%;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(37, 99, 235, 0.15);
+    }
+    .title {
+      font-size: 1.35rem;
+      color: #93c5fd;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .message {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      min-height: 110px;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.15em;
+      background-color: #60a5fa;
+      vertical-align: text-bottom;
+      animation: blink 0.8s infinite;
+      margin-left: 2px;
+    }
+
+    
+    @keyframes popInAlbum {
+      to { transform: scale(1); }
+    }
+
+    @keyframes photoCycle {
+      0%, 3% { opacity: 0; transform: translateY(10px) rotate(-3deg); }
+      8%, 30% { opacity: 1; transform: translateY(0px) rotate(-3deg); z-index: 10; }
+      35%, 100% { opacity: 0; transform: translateY(-10px) rotate(-3deg); z-index: 1; }
+    }
+
+    
+    .p2 { animation-name: photoCycleP2; }
+    @keyframes photoCycleP2 {
+      0%, 3% { opacity: 0; transform: translateY(10px) rotate(2deg); }
+      8%, 30% { opacity: 1; transform: translateY(0px) rotate(2deg); z-index: 10; }
+      35%, 100% { opacity: 0; transform: translateY(-10px) rotate(2deg); z-index: 1; }
+    }
+
+    .p3 { animation-name: photoCycleP3; }
+    @keyframes photoCycleP3 {
+      0%, 3% { opacity: 0; transform: translateY(10px) rotate(-1deg); }
+      8%, 30% { opacity: 1; transform: translateY(0px) rotate(-1deg); z-index: 10; }
+      35%, 100% { opacity: 0; transform: translateY(-10px) rotate(-1deg); z-index: 1; }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Elemento de audio en bucle -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Botón interactivo -->
+  <button id="music-btn" class="music-btn" onclick="toggleAudio()">
+    <span id="music-icon">🎵</span> <span id="music-text">🎵</span>
+  </button>
+
+  <div class="scene">
+    
+    <!-- --- Nuevo Álbum de Fotos de Ustedes --- -->
+    <div class="photo-album-container">
+      <div class="polaroid p1"><img src="foto1.jpg" alt="t amo 1"></div>
+      <div class="polaroid p2"><img src="foto2.jpg" alt="t amo 2"></div>
+      <div class="polaroid p3"><img src="foto3.jpg" alt="t amo 3"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="title">ola te amo mucho</h2>
+      <p class="message"><span id="text"></span><span class="cursor"></span></p>
+    </div>
+  </div>
+
+  <script>
+    // Tu mensaje intacto:
+    const dedication = "m parece increíble que ya hayan pasado 2 meses desde que empezó esto y no hay un solo día en que no agradezca haber coincidido contigo.\n\nm gusta la forma en la que conectamos y cómo logras hacerme feliz incluso en los días más pesados que puedo tener, y cómo cualquier momento que pasamos juntos se vuelve bonito si es contigo.\n\nt regalo este detalle pq quiero que sepas lo mucho que me haces feliz. ojalá que sean muchos más, amor. te amo y te quiero mucho.";
+    
+    let index = 0;
+    const speed = 28;
+
+    function typeWriter() {
+      if (index < dedication.length) {
+        document.getElementById("text").textContent += dedication.charAt(index);
+        index++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    
+    setTimeout(typeWriter, 2800);
+
+    
+    const audio = document.getElementById('bg-audio');
+    const musicText = document.getElementById('music-text');
+    const musicIcon = document.getElementById('music-icon');
+
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play().then(() => {
+          musicIcon.textContent = '⏸️';
+          musicText.textContent = 'Pausar música';
+        }).catch(err => {
+          console.log('Error al reproducir audio:', err);
+        });
+      } else {
+        audio.pause();
+        musicIcon.textContent = '🎵';
+      }
+    }
+  </script>
+</body>
+</html>
